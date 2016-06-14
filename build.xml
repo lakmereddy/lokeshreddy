@@ -1,0 +1,37 @@
+<project name="first project" default="dist">
+<property file="build.properties"/>
+
+	<target name="clean">
+		<delete dir="build"/>
+		<delete dir="dist"/>
+	</target>
+
+	<target name="init" depends="clean">
+		<mkdir dir="build/classes"/>
+		<mkdir dir="build/jar"/>
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="javafiles"
+		  destdir="build/classes"/>
+	
+	</target>
+	<target name="jar" depends="compile">
+		<jar destfile="build/jar/app-${appversion}.jar" basedir="build/classes"/>
+	</target>
+	
+	<target name="copywebfiles">
+	<copy todir="build/web">
+	
+	<fileset dir="web"/>
+	</copy>
+	</target>
+
+	<target name="dist" depends="jar,copywebfiles">
+	 <zip  destfile="dist/app-${appversion}.zip">
+	<fileset dir="build/web"/>
+	<fileset dir="build/jar"/>
+	</zip>
+	</target>
+	
+</project>
